@@ -1,4 +1,4 @@
-package com.alexandrepontes.userRegistration.resources;
+package com.alexandrepontes.userRegistration.services;
 
 import com.alexandrepontes.userRegistration.models.User;
 import com.alexandrepontes.userRegistration.repository.UserRepository;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserResources {
+public class UserService {
     @Autowired
     private UserRepository userRepository;
 
