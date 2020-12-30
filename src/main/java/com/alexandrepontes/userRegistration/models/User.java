@@ -10,29 +10,32 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
 @Table(name = "TB_USER")
 public class User implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotNull
     @Size(min = 3, max = 100)
-    @NotBlank(message = "nome é obrigatório")
+
     private String name;
 
-    @NotBlank(message = "CPF é obrigatório")
+    @NotNull
     @Column(unique = true)
     private String CPF;
 
-    @NotBlank(message = "e-mail é obrigatório")
+    @NotNull
     @Column(unique = true)
     private String email;
 
-    @NotBlank(message = "data de nascimento é obrigatória")
+    //@NotBlank(message = "data de nascimento é obrigatória")
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private Date birthDay;
 

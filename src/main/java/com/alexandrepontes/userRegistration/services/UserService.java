@@ -54,7 +54,6 @@ public class UserService {
         newUser.setName(user.getName());
         newUser.setEmail(user.getEmail());
         newUser.setCPF(user.getCPF());
-        newUser.setBirthDay(user.getBirthDay());
     }
 
 }
