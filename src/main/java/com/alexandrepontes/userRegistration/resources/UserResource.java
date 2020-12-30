@@ -5,8 +5,10 @@ import com.alexandrepontes.userRegistration.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,13 +26,23 @@ public class UserResource {
 
     @RequestMapping(method=RequestMethod.POST)
     public ResponseEntity<Void> insert(@Valid @RequestBody User u){
-            return null;
+        User user = userService.find(u.getId());
+        user = userService.insert(user);
+        URI uri = ServletUriComponentsBuilder
+                        .fromCurrentRequest()
+                        .path("/{id}")
+                        .buildAndExpand(user.getId())
+                        .toUri();
+
+            return ResponseEntity.created(uri).build();
     }
 
     @RequestMapping(value="/{id}", method=RequestMethod.PUT)
     public ResponseEntity<Void> update(@Valid @RequestBody User u, @PathVariable Integer id){
-
-        return null;
+        User user = userService.find(u.getId());
+        user.setId(id);
+        user = userService.update(user);
+        return ResponseEntity.noContent().build();
     }
 
     @RequestMapping(value="/{id}", method = RequestMethod.DELETE)
