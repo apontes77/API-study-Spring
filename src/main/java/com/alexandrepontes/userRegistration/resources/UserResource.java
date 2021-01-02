@@ -19,15 +19,15 @@ public class UserResource {
     private UserService userService;
 
     @RequestMapping(value="/{id}", method = RequestMethod.GET)
-    public ResponseEntity<User> find(@PathVariable Integer id) {
+    public ResponseEntity<User> find(@PathVariable Long id) {
         User user = userService.find(id);
         return ResponseEntity.ok().body(user);
     }
 
     @RequestMapping(method=RequestMethod.POST)
     public ResponseEntity<Void> insert(@Valid @RequestBody User u){
-        User user = userService.find(u.getId());
-        user = userService.insert(user);
+        User user = new User();
+        user = userService.insert(u);
         URI uri = ServletUriComponentsBuilder
                         .fromCurrentRequest()
                         .path("/{id}")
@@ -38,15 +38,14 @@ public class UserResource {
     }
 
     @RequestMapping(value="/{id}", method=RequestMethod.PUT)
-    public ResponseEntity<Void> update(@Valid @RequestBody User u, @PathVariable Integer id){
-        User user = userService.find(u.getId());
-        user.setId(id);
-        user = userService.update(user);
+    public ResponseEntity<Void> update(@Valid @RequestBody User u, @PathVariable Long id){
+                 u.setId(userService.find(id).getId());
+                 userService.update(u);
         return ResponseEntity.noContent().build();
     }
 
     @RequestMapping(value="/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         userService.delete(id);
         return ResponseEntity.noContent().build();
     }
@@ -55,7 +54,7 @@ public class UserResource {
     public ResponseEntity<List<User>> findAll() {
         List<User> users = userService.findAll();
         List<User> totalUsers = users.stream()
-                                        .map(obj -> new User())
+                                        .map(obj -> new User(obj.getId(), obj.getName(), obj.getCPF(), obj.getEmail(), obj.getBirthDay()))
                                         .collect(Collectors.toList());
         return ResponseEntity.ok().body(totalUsers);
     }
