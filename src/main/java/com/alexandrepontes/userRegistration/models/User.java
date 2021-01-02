@@ -1,17 +1,16 @@
 package com.alexandrepontes.userRegistration.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.hibernate.validator.constraints.br.CPF;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.Constraint;
-import javax.validation.Valid;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -20,40 +19,41 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
-    @NotNull
+    @NotBlank(message = "nome é obrigatório")
     @Size(min = 3, max = 100)
-
     private String name;
 
-    @NotNull
+    @NotBlank(message = "CPF é obrigatório")
     @Column(unique = true)
-    private String CPF;
+    private String cpf;
 
-    @NotNull
+    @NotBlank(message = "e-mail é obrigatório")
     @Column(unique = true)
     private String email;
 
-    //@NotBlank(message = "data de nascimento é obrigatória")
-    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+
+    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date birthDay;
 
     public User() {
     }
 
-    public User(String name, String CPF, String email, Date birthDay) {
+    public User(Long id, String name, String cpf, String email, Date birthDay) {
+        this.id = id;
         this.name = name;
-        this.CPF = CPF;
+        this.cpf = cpf;
         this.email = email;
         this.birthDay = birthDay;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -66,11 +66,11 @@ public class User implements Serializable {
     }
 
     public String getCPF() {
-        return CPF;
+        return cpf;
     }
 
-    public void setCPF(String CPF) {
-        this.CPF = CPF;
+    public void setCPF(String cpf) {
+        this.cpf = cpf;
     }
 
     public String getEmail() {

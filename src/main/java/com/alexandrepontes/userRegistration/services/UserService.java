@@ -17,7 +17,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User find (Integer id) {
+    public User find (Long id) {
         Optional<User> objUser = userRepository.findById(id);
         return objUser.orElseThrow(() -> new ObjectNotFoundException(
                 "objeto não encontrado! Id: "+id+", Tipo: " + User.class.getName()
@@ -25,7 +25,7 @@ public class UserService {
     }
 
     public User update (User user) {
-        User newUser = find(user.getId());
+        User newUser = userRepository.findById(user.getId()).get();
         updateData(newUser, user);
         return userRepository.save(newUser);
     }
@@ -38,7 +38,7 @@ public class UserService {
         return user;
     }
 
-    public void delete(Integer id){
+    public void delete(Long id){
         try {
             userRepository.deleteById(id);
         }catch (DataIntegrityViolationException e) {
@@ -54,6 +54,7 @@ public class UserService {
         newUser.setName(user.getName());
         newUser.setEmail(user.getEmail());
         newUser.setCPF(user.getCPF());
+        newUser.setBirthDay(user.getBirthDay());
     }
 
 }
