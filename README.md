@@ -9,4 +9,4 @@ Abra o mesmo diretório em sua IDE de preferência (usei IntellijIdea).
 
 Execute o projeto Spring (no IntellijIdea, basta o atalho SHIFT+F10).
 
-Para acessar a Documentação da API, acesse: localhost:8080/swagger-api.html.
+Para acessar a Documentação da API, acesse: localhost:8080/swagger-ui.html.
